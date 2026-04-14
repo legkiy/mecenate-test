@@ -1,0 +1,1 @@
+export {default as CommentsScreen} from './comments-screen'

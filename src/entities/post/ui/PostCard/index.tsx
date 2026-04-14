@@ -101,7 +101,12 @@ const PostCard = ({
               postId={id}
             />
             <Chip
-              onPress={() => router.push(`/${id}`)}
+              onPress={() => {
+                if (isDetail) {
+                  return;
+                }
+                router.push(`/${id}`);
+              }}
               label={String(commentsCount)}
               startIcon={
                 <FontAwesome

@@ -233,7 +233,7 @@ export interface components {
   schemas: {
     Author: {
       /** @example author_1 */
-      id?: string;
+      id: string;
       /** @example lesha_krid */
       username?: string;
       /** @example Леша Крид */
@@ -278,7 +278,7 @@ export interface components {
     };
     Comment: {
       /** @example comment_1 */
-      id?: string;
+      id: string;
       /** @example post_1 */
       postId?: string;
       author?: components['schemas']['Author'];
@@ -308,8 +308,8 @@ export interface components {
       /** @example true */
       ok?: boolean;
       data?: {
-        isLiked?: boolean;
-        likesCount?: number;
+        isLiked: boolean;
+        likesCount: number;
       };
     };
     CommentsResponse: {

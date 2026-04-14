@@ -13,6 +13,7 @@ export const Colors = {
     primory: '#6115CD',
     fg: '#FFFFFF',
     mute: '#57626F',
+    muteSecond: '#A4AAB0',
     soft: '#68727D',
     accent: '#FFEAF1',
   },

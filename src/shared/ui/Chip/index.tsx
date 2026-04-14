@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 type Props = {
-  label: string;
+  label: React.ReactNode;
   startIcon?: React.ReactElement;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
@@ -27,7 +27,11 @@ const Chip = ({ label, startIcon, style, textStyle, onPress }: Props) => {
       ]}
     >
       {startIcon}
-      <Text style={[styles.label, textStyle]}>{label}</Text>
+      {typeof label === 'string' ? (
+        <Text style={[styles.label, textStyle]}>{label}</Text>
+      ) : (
+        label
+      )}
     </Pressable>
   );
 };

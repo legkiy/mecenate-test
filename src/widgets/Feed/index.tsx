@@ -28,6 +28,7 @@ const Feed = ({ tier }: Props) => {
       {!error && (
         <FlatList
           refreshing={isRefetching}
+          keyExtractor={(item) => item.id}
           onRefresh={refetch}
           data={data?.data?.posts}
           renderItem={({ item }) =>
