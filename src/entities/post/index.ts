@@ -1,3 +1,3 @@
 export { Post } from './model';
 export { postService } from './service';
-export { PostCard } from './ui';
+export { PostCard, PostComments, SkeletonPost } from './ui';

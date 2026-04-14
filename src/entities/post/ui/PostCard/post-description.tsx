@@ -11,12 +11,13 @@ import {
 
 type Props = {
   text?: string;
+  isDetail?: boolean;
 };
 
 const NUM_LINES = 2;
 
-const PostDescription = ({ text }: Props) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+const PostDescription = ({ text, isDetail }: Props) => {
+  const [isExpanded, setIsExpanded] = useState(isDetail);
   const [showReadMore, setShowReadMore] = useState(false);
   const [isMeasured, setIsMeasured] = useState(false);
 

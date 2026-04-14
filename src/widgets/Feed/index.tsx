@@ -1,7 +1,6 @@
 import { Spacing } from '@/constants/theme';
-import { PostCard, postService } from '@/entities/post';
+import { PostCard, postService, SkeletonPost } from '@/entities/post';
 import ErrorDisplay from '@/shared/ui/ErrorDisplay';
-import Feather from '@expo/vector-icons/Feather';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { FlatList, View } from 'react-native';
 
@@ -21,18 +20,19 @@ const Feed = ({ tier }: Props) => {
       {error && (
         <ErrorDisplay
           error={error}
-          label="По вашему запросу ничего не найдено"
-          retryLabel="Повторите"
+          label="Не удалось загрузить публикации"
+          retryLabel="Повторить"
           onRetry={refetch}
         />
       )}
-      {isLoading && <Feather name="loader" size={24} color="black" />}
-      {!isLoading && !error && (
+      {!error && (
         <FlatList
           refreshing={isRefetching}
           onRefresh={refetch}
           data={data?.data?.posts}
-          renderItem={({ item }) => <PostCard {...item} />}
+          renderItem={({ item }) =>
+            isLoading ? <SkeletonPost /> : <PostCard {...item} />
+          }
           contentContainerStyle={{
             gap: Spacing.lg,
             paddingBottom: Spacing.xl,

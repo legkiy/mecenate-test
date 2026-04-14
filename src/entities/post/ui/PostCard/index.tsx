@@ -10,7 +10,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import LikeCounts from './like-counts';
 import PostDescription from './post-description';
 
-type Props = components['schemas']['Post'] & {};
+type Props = components['schemas']['Post'] & { isDetail?: boolean };
 const PostCard = ({
   title,
   coverUrl,
@@ -21,6 +21,7 @@ const PostCard = ({
   isLiked,
   id,
   tier,
+  isDetail,
 }: Props) => {
   const isPaid = tier === 'paid';
 
@@ -88,7 +89,7 @@ const PostCard = ({
               >
                 {title}
               </Text>
-              <PostDescription text={body} />
+              <PostDescription text={body} isDetail={isDetail} />
             </>
           )}
         </View>

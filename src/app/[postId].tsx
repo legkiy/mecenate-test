@@ -1,17 +1,29 @@
-import { postService } from '@/entities/post';
+import {
+  PostCard,
+  PostComments,
+  postService,
+  SkeletonPost,
+} from '@/entities/post';
 import { useQuery } from '@tanstack/react-query';
 import { useLocalSearchParams } from 'expo-router';
-import { Text } from 'react-native';
+import { View } from 'react-native';
 
 const PostIdScreen = () => {
   const { postId } = useLocalSearchParams<{ postId: string }>();
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: postService.queryKeys.detail(postId),
     queryFn: () => postService.getById(postId),
   });
-  console.log(data);
+  if (isLoading) {
+    return <SkeletonPost />;
+  }
 
-  return <Text>PostIdScreen {postId}</Text>;
+  return (
+    <View>
+      {data?.data?.post && <PostCard {...data?.data?.post} isDetail />}
+      <PostComments />
+    </View>
+  );
 };
 export default PostIdScreen;
