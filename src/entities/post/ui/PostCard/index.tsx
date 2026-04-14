@@ -24,7 +24,7 @@ const PostCard = ({
   const isPaid = tier === 'paid';
 
   return (
-    <Link href={`/${id}`}>
+    <Link href={`/${id}`} disabled={isPaid}>
       <View style={styles.container}>
         <View style={styles.head}>
           <Image source={author?.avatarUrl} style={styles.avatar} />
