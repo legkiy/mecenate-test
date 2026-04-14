@@ -1,4 +1,4 @@
-import { Colors } from '@/constants/theme';
+import { Colors, Spacing } from '@/constants/theme';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 type Props = {
@@ -23,15 +23,15 @@ export default FeedTab;
 const styles = StyleSheet.create({
   tabItem: {
     flex: 1,
-    paddingVertical: 10,
+    padding: 10,
     alignItems: 'center',
-    borderRadius: 18,
+    borderRadius: Spacing.lg,
   },
   activeTabItem: {
     backgroundColor: Colors.surface.primory,
   },
   tabText: {
-    color: '#8E8E93',
+    color: Colors.text.mute,
     fontWeight: '500',
   },
   activeTabText: {

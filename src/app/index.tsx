@@ -1,9 +1,10 @@
+import { Colors, Spacing } from '@/constants/theme';
 import { postService } from '@/entities/post';
 import Feed from '@/widgets/Feed';
 import FeedTab from '@/widgets/FeedTab';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useRef, useState } from 'react';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import PagerView from 'react-native-pager-view';
 
 const TABS = [
@@ -32,7 +33,7 @@ const FeedScreen = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ flexDirection: 'row' }}>
+      <View style={syles.tabs}>
         {TABS.map((tab) => (
           <FeedTab
             key={tab.id}
@@ -63,3 +64,14 @@ const FeedScreen = () => {
   );
 };
 export default FeedScreen;
+
+const syles = StyleSheet.create({
+  tabs: {
+    flexDirection: 'row',
+    backgroundColor: Colors.surface.fg,
+    borderColor: Colors.border.default,
+    borderWidth: 1,
+    borderRadius: Spacing.lg,
+    margin: Spacing.lg,
+  },
+});
