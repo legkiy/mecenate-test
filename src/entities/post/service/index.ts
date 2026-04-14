@@ -29,9 +29,9 @@ class PostService {
     return res;
   }
 
-  async toggleLike(id: string): Promise<components['schemas']['LikeResponse']> {
+  async toggleLike(postId: string): Promise<components['schemas']['LikeResponse']> {
     const res = await this.api.post<components['schemas']['LikeResponse']>(
-      `/posts/${id}/like`,
+      `/posts/${postId}/like`,
     );
     return res;
   }

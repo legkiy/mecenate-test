@@ -252,7 +252,7 @@ export interface components {
     };
     Post: {
       /** @example post_1 */
-      id?: string;
+      id: string;
       author?: components['schemas']['Author'];
       /** @example Подготовка к лету */
       title?: string;
@@ -274,7 +274,7 @@ export interface components {
       /** @enum {string} */
       tier?: 'free' | 'paid';
       /** Format: date-time */
-      createdAt?: string;
+      createdAt: string;
     };
     Comment: {
       /** @example comment_1 */

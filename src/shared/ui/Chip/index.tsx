@@ -1,26 +1,34 @@
 import { Colors, Fonts, Spacing } from '@/constants/theme';
 import {
+  Pressable,
   StyleProp,
   StyleSheet,
   Text,
   TextStyle,
-  View,
   ViewStyle,
 } from 'react-native';
 
 type Props = {
   label: string;
-  startIcon: React.ReactElement;
+  startIcon?: React.ReactElement;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
+  onPress?: () => void;
 };
 
-const Chip = ({ label, startIcon, style, textStyle }: Props) => {
+const Chip = ({ label, startIcon, style, textStyle, onPress }: Props) => {
   return (
-    <View style={[styles.box, style]}>
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.box,
+        onPress && pressed && styles.pressed,
+        style,
+      ]}
+    >
       {startIcon}
       <Text style={[styles.label, textStyle]}>{label}</Text>
-    </View>
+    </Pressable>
   );
 };
 export default Chip;
@@ -34,6 +42,9 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     gap: Spacing.xs,
+  },
+  pressed: {
+    backgroundColor: Colors.surface.softPressed,
   },
   label: {
     color: Colors.text.mute,

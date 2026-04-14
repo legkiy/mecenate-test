@@ -5,6 +5,7 @@ export const Colors = {
     primory: '#6115CD',
     primoryDisabled: '#D5C9FF',
     soft: '#EFF2F7',
+    softPressed: '#D4D4D4',
     accent: '#FF2B75',
   },
   text: {

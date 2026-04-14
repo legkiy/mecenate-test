@@ -5,8 +5,9 @@ import Chip from '@/shared/ui/Chip';
 import Image from '@/shared/ui/Image';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { BlurView } from 'expo-blur';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
+import LikeCounts from './like-counts';
 import PostDescription from './post-description';
 
 type Props = components['schemas']['Post'] & {};
@@ -93,27 +94,13 @@ const PostCard = ({
         </View>
         {!isPaid && (
           <View style={styles.actions}>
-            <Chip
-              label={String(likesCount)}
-              style={[
-                isLiked && {
-                  backgroundColor: Colors.surface.accent,
-                },
-              ]}
-              textStyle={[
-                isLiked && {
-                  color: Colors.text.accent,
-                },
-              ]}
-              startIcon={
-                <FontAwesome
-                  name={isLiked ? 'heart' : 'heart-o'}
-                  size={22}
-                  color={isLiked ? Colors.text.accent : Colors.text.mute}
-                />
-              }
+            <LikeCounts
+              initCounts={likesCount}
+              initIsLiked={!!isLiked}
+              postId={id}
             />
             <Chip
+              onPress={() => router.push(`/${id}`)}
               label={String(commentsCount)}
               startIcon={
                 <FontAwesome
