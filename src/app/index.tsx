@@ -1,10 +1,8 @@
 import { Colors, Spacing } from '@/constants/theme';
-import { postService } from '@/entities/post';
 import Feed from '@/widgets/Feed';
 import FeedTab from '@/widgets/FeedTab';
-import { useQuery } from '@tanstack/react-query';
 import { useCallback, useRef, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import PagerView from 'react-native-pager-view';
 
 const TABS = [
@@ -17,19 +15,10 @@ const FeedScreen = () => {
   const [activeTab, setActiveTab] = useState(0);
   const pagerRef = useRef<PagerView>(null);
 
-  const currentTier = TABS[activeTab].value;
-
-  const { data, isLoading, error, refetch, isRefetching } = useQuery({
-    queryKey: postService.queryKeys.listByTier(currentTier),
-    queryFn: () => postService.getList({ tier: currentTier }),
-  });
-
   const handleTabPress = useCallback((index: number) => {
     setActiveTab(index);
     pagerRef.current?.setPage(index);
   }, []);
-
-  if (error) return <Text>Error</Text>;
 
   return (
     <View style={{ flex: 1 }}>
@@ -51,13 +40,7 @@ const FeedScreen = () => {
         onPageSelected={(e) => setActiveTab(e.nativeEvent.position)}
       >
         {TABS.map((tab) => (
-          <Feed
-            key={tab.id}
-            isLoading={isLoading}
-            onRefresh={refetch}
-            postsList={data?.data?.posts || []}
-            refreshing={isRefetching}
-          />
+          <Feed key={tab.id} tier={tab.value} />
         ))}
       </PagerView>
     </View>

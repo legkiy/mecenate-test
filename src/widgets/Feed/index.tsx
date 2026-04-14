@@ -1,23 +1,27 @@
 import { Spacing } from '@/constants/theme';
-import { Post, PostCard } from '@/entities/post';
+import { PostCard, postService } from '@/entities/post';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { FlatList, Text, View } from 'react-native';
 
 type Props = {
-  postsList: Post[];
-  refreshing: boolean;
-  onRefresh: () => void;
-  isLoading: boolean;
+  tier?: 'free' | 'paid';
 };
 
-const Feed = ({ postsList, refreshing, onRefresh, isLoading }: Props) => {
+const Feed = ({ tier }: Props) => {
+  const { data, isLoading, refetch, isRefetching } = useQuery({
+    queryKey: postService.queryKeys.listByTier(tier),
+    queryFn: () => postService.getList({ tier: tier }),
+    placeholderData: keepPreviousData,
+  });
+
   return (
     <View style={{ flex: 1, paddingBottom: Spacing.lg }}>
       {isLoading && <Text>loading...</Text>}
       {!isLoading && (
         <FlatList
-          refreshing={refreshing}
-          onRefresh={onRefresh}
-          data={postsList}
+          refreshing={isRefetching}
+          onRefresh={refetch}
+          data={data?.data?.posts}
           renderItem={({ item }) => <PostCard {...item} />}
           contentContainerStyle={{
             gap: Spacing.lg,
