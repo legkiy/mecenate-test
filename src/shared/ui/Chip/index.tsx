@@ -1,16 +1,18 @@
 import { Colors, Fonts, Spacing } from '@/constants/theme';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleProp, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
 
 type Props = {
   label: string;
   startIcon: React.ReactElement;
+  style?: StyleProp<ViewStyle>;
+  textStyle?:StyleProp<TextStyle>
 };
 
-const Chip = ({ label, startIcon }: Props) => {
+const Chip = ({ label, startIcon, style,textStyle  }: Props) => {
   return (
-    <View style={styles.box}>
+    <View style={[styles.box, style]}>
       {startIcon}
-      <Text style={styles.label}>{label}</Text>
+      <Text style={[styles.label, textStyle]}>{label}</Text>
     </View>
   );
 };

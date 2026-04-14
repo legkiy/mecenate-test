@@ -11,6 +11,7 @@ export const Colors = {
     fg: '#FFFFFF',
     mute: '#57626F',
     soft: '#68727D',
+    accent: '#FFEAF1',
   },
   border: {
     default: '#E8ECEF',

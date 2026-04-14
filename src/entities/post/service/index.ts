@@ -8,6 +8,7 @@ class PostService {
 
   queryKeys = {
     list: ['posts-list'],
+    listByTier: (tier?: string) => ['posts-list', tier],
     detail: (id: string) => ['post', id],
   };
   async getList(
