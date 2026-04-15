@@ -360,6 +360,9 @@ export class ApiClient {
     body?: any,
     config?: Omit<RequestConfig, 'url' | 'method' | 'body'>,
   ): Promise<T> {
+
+    console.log();
+    
     return this.request<T>({
       ...(config || {}),
       url,

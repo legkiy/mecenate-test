@@ -1,10 +1,33 @@
 import { Colors, Fonts, Spacing } from '@/constants/theme';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
-
-const CommentInput = () => {
+import {
+  Keyboard,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { commentsService } from '../service';
+type Props = {
+  postId: string;
+};
+const CommentInput = ({ postId }: Props) => {
   const [value, setValue] = useState('');
+
+  const onSubmit = async () => {
+    if (!value.trim()) return;
+    try {
+      await commentsService.sendComment(postId, {
+        text: value,
+      });
+      setValue('');
+      Keyboard.dismiss();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <View style={styles.box}>
       <TextInput
@@ -14,7 +37,7 @@ const CommentInput = () => {
         placeholder="Ваш коментарий"
         placeholderTextColor={Colors.text.muteSecond}
       />
-      <TouchableOpacity disabled={!value.trim()}>
+      <TouchableOpacity disabled={!value.trim()} onPress={onSubmit}>
         <AntDesign
           name="send"
           size={24}

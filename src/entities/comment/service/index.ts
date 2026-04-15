@@ -21,7 +21,7 @@ class CommentsService {
     return res;
   }
 
-  async setdComment(
+  async sendComment(
     postId: string,
     body: {
       text: string;
@@ -29,9 +29,7 @@ class CommentsService {
   ) {
     const res = await this.api.post<
       components['schemas']['CommentCreatedResponse']
-    >(`/posts/${postId}/comments`, {
-      body,
-    });
+    >(`/posts/${postId}/comments`, body);
     return res;
   }
 }

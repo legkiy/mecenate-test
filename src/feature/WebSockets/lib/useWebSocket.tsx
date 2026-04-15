@@ -39,7 +39,6 @@ export function useWebSocket(postId: string) {
       const ws = new WebSocket(url);
 
       ws.onopen = () => {
-        console.log('WebSocket подключён');
         setIsConnected(true);
       };
 
@@ -47,9 +46,7 @@ export function useWebSocket(postId: string) {
         try {
           const data = JSON.parse(event.data) as WsResponse;
 
-          if (data.type === WsMessageType.PING) {
-            console.log('Получено', WsMessageType.PING, ': ', data);
-          } else if (data.type === WsMessageType.LIKE_UPDATED) {
+          if (data.type === WsMessageType.LIKE_UPDATED) {
             setLikesCount(data.likesCount);
           } else if (data.type === WsMessageType.COMMENT_ADDED) {
             setNewComment(data.comment);
@@ -60,7 +57,6 @@ export function useWebSocket(postId: string) {
       };
 
       ws.onclose = (e) => {
-        console.log('WebSocket закрыт', e.code, e.reason);
         setIsConnected(false);
         setTimeout(connect, 3000);
       };
