@@ -47,10 +47,16 @@ const CommentsList = ({ postId, newComment, allComentsCount }: Props) => {
   const sortedMessages = useMemo(() => {
     const comments = data?.data?.comments || [];
     return sortNewFirst
-      ? [...comments].sort((a, b) => 
-          new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime())
-      : [...comments].sort((a, b) => 
-          new Date(a.createdAt ?? 0).getTime() - new Date(b.createdAt ?? 0).getTime());
+      ? [...comments].sort(
+          (a, b) =>
+            new Date(b.createdAt ?? 0).getTime() -
+            new Date(a.createdAt ?? 0).getTime(),
+        )
+      : [...comments].sort(
+          (a, b) =>
+            new Date(a.createdAt ?? 0).getTime() -
+            new Date(b.createdAt ?? 0).getTime(),
+        );
   }, [data?.data?.comments, sortNewFirst]);
 
   const handleChangeSorting = () => {
@@ -58,7 +64,9 @@ const CommentsList = ({ postId, newComment, allComentsCount }: Props) => {
   };
 
   const commentsCount =
-    (allComentsCount || 20) - 20 + (data?.data?.comments?.length || 0);
+    (allComentsCount < 20 ? 20 : allComentsCount) -
+    20 +
+    (data?.data?.comments?.length || 0);
 
   return (
     <View style={styles.box}>

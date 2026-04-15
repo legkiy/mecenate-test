@@ -24,7 +24,7 @@ const CommentInput = ({ postId }: Props) => {
       setValue('');
       Keyboard.dismiss();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

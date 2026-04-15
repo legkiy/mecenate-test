@@ -1,5 +1,6 @@
 import { Fonts, Spacing } from '@/constants/theme';
 import { Avatar } from '@/entities/user';
+import { memo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Comment } from '../model';
 
@@ -16,7 +17,7 @@ const CommentItem = ({ author, text }: Props) => {
     </View>
   );
 };
-export default CommentItem;
+export default memo(CommentItem);
 
 const styles = StyleSheet.create({
   box: {

@@ -1,19 +1,53 @@
 import { Spacing } from '@/constants/theme';
 import { PostCard, postService, SkeletonPost } from '@/entities/post';
 import ErrorDisplay from '@/shared/ui/ErrorDisplay';
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { FlatList, View } from 'react-native';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useCallback } from 'react';
+import { ActivityIndicator, FlatList, View } from 'react-native';
 
 type Props = {
   tier?: 'free' | 'paid';
 };
 
+const PAGE_SIZE = 10;
+
 const Feed = ({ tier }: Props) => {
-  const { data, isLoading, refetch, isRefetching, error } = useQuery({
+  const {
+    data,
+    isLoading,
+    refetch,
+    isRefetching,
+    error,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
     queryKey: postService.queryKeys.listByTier(tier),
-    queryFn: () => postService.getList({ tier: tier }),
-    placeholderData: keepPreviousData,
+    queryFn: ({ pageParam }) =>
+      postService.getList({ tier: tier, cursor: pageParam, limit: PAGE_SIZE }),
+    getNextPageParam: (lastPage) =>
+      lastPage.data?.hasMore
+        ? (lastPage.data.nextCursor ?? undefined)
+        : undefined,
+    initialPageParam: undefined as string | undefined,
   });
+
+  const posts = data?.pages.flatMap((page) => page.data?.posts ?? []) ?? [];
+
+  const loadMore = useCallback(() => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const renderItem = useCallback(
+    ({ item }: { item: (typeof posts)[number] }) => <PostCard {...item} />,
+    [],
+  );
+
+  const onEndReached = useCallback(() => {
+    loadMore();
+  }, [loadMore]);
 
   return (
     <View style={{ flex: 1 }}>
@@ -30,9 +64,18 @@ const Feed = ({ tier }: Props) => {
           refreshing={isRefetching}
           keyExtractor={(item) => item.id}
           onRefresh={refetch}
-          data={data?.data?.posts}
-          renderItem={({ item }) =>
-            isLoading ? <SkeletonPost /> : <PostCard {...item} />
+          data={posts}
+          renderItem={({ item, index }) =>
+            isLoading && index < 2 ? <SkeletonPost /> : renderItem({ item })
+          }
+          onEndReached={onEndReached}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={
+            isFetchingNextPage ? (
+              <View style={{ padding: Spacing.lg }}>
+                <ActivityIndicator />
+              </View>
+            ) : null
           }
           contentContainerStyle={{
             gap: Spacing.lg,

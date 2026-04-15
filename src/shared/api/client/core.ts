@@ -361,8 +361,6 @@ export class ApiClient {
     config?: Omit<RequestConfig, 'url' | 'method' | 'body'>,
   ): Promise<T> {
 
-    console.log();
-    
     return this.request<T>({
       ...(config || {}),
       url,
