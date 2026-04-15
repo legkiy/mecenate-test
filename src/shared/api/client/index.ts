@@ -1,4 +1,4 @@
-import { randomUUID } from 'expo-crypto';
+import { getOrCreateAppUuid } from '@/shared/lib/app-uuid';
 import { ApiClient } from './core';
 
 export const mecenateApiClient = new ApiClient({
@@ -8,9 +8,8 @@ export const mecenateApiClient = new ApiClient({
   },
 });
 
-const uuid = randomUUID();
-
 mecenateApiClient.addRequestInterceptor(async (config) => {
+  const uuid = await getOrCreateAppUuid();
   return {
     ...config,
     headers: {

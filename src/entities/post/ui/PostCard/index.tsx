@@ -1,4 +1,5 @@
 import { Colors, Fonts, Spacing } from '@/constants/theme';
+import { Avatar } from '@/entities/user';
 import { components } from '@/shared/api/endpoints';
 import Button from '@/shared/ui/Button';
 import Chip from '@/shared/ui/Chip';
@@ -29,7 +30,7 @@ const PostCard = ({
     <Link href={`/${id}`} disabled={isPaid}>
       <View style={styles.container}>
         <View style={styles.head}>
-          <Image source={author?.avatarUrl} style={styles.avatar} />
+          <Avatar src={author?.avatarUrl || ''} />
           <Text style={[styles.name]}>{author?.displayName}</Text>
         </View>
         <View>
@@ -134,11 +135,6 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.md,
     gap: Spacing.lg,
     alignItems: 'center',
-  },
-  avatar: {
-    width: 40,
-    aspectRatio: '1/1',
-    borderRadius: '100%',
   },
   img: {
     width: '100%',

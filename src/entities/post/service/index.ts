@@ -29,9 +29,18 @@ class PostService {
     return res;
   }
 
-  async toggleLike(postId: string): Promise<components['schemas']['LikeResponse']> {
+  async toggleLike(
+    postId: string,
+  ): Promise<components['schemas']['LikeResponse']> {
     const res = await this.api.post<components['schemas']['LikeResponse']>(
       `/posts/${postId}/like`,
+    );
+    return res;
+  }
+
+  async getPostComent(postId: string) {
+    const res = await this.api.get<components['schemas']['CommentsResponse']>(
+      `/posts/${postId}/comments`,
     );
     return res;
   }
