@@ -1,5 +1,7 @@
-import { Comment } from '@/entities/comment';
+import { Comment, commentsService } from '@/entities/comment';
+import { components } from '@/shared/api/endpoints';
 import { getAppUuid } from '@/shared/lib/app-uuid';
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 
 enum WsMessageType {
@@ -31,6 +33,8 @@ export function useWebSocket(postId: string) {
 
   const uuid = getAppUuid();
 
+  const queryClient = useQueryClient();
+
   useEffect(() => {
     if (!uuid) return;
 
@@ -49,6 +53,25 @@ export function useWebSocket(postId: string) {
           if (data.type === WsMessageType.LIKE_UPDATED) {
             setLikesCount(data.likesCount);
           } else if (data.type === WsMessageType.COMMENT_ADDED) {
+            queryClient.setQueryData<components['schemas']['CommentsResponse']>(
+              commentsService.queryKeys.listByPostId(postId),
+              (prev) => {
+                if (!prev) return {};
+                if (
+                  prev?.data?.comments?.some((c) => c.id === data.comment.id)
+                ) {
+                  return prev;
+                }
+
+                return {
+                  ...prev,
+                  data: {
+                    ...prev?.data,
+                    comments: [...(prev?.data?.comments || []), data.comment],
+                  },
+                };
+              },
+            );
             setNewComment(data.comment);
           }
         } catch (e) {

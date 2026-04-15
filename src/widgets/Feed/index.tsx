@@ -40,15 +40,6 @@ const Feed = ({ tier }: Props) => {
     }
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  const renderItem = useCallback(
-    ({ item }: { item: (typeof posts)[number] }) => <PostCard {...item} />,
-    [],
-  );
-
-  const onEndReached = useCallback(() => {
-    loadMore();
-  }, [loadMore]);
-
   return (
     <View style={{ flex: 1 }}>
       {error && (
@@ -66,9 +57,9 @@ const Feed = ({ tier }: Props) => {
           onRefresh={refetch}
           data={posts}
           renderItem={({ item, index }) =>
-            isLoading && index < 2 ? <SkeletonPost /> : renderItem({ item })
+            isLoading && index < 2 ? <SkeletonPost /> : <PostCard {...item} />
           }
-          onEndReached={onEndReached}
+          onEndReached={loadMore}
           onEndReachedThreshold={0.5}
           ListFooterComponent={
             isFetchingNextPage ? (

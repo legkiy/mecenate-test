@@ -1,4 +1,4 @@
-import { Fonts, Spacing } from '@/constants/theme';
+import { Colors, Fonts, Spacing } from '@/constants/theme';
 import { Avatar } from '@/entities/user';
 import { memo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
@@ -24,6 +24,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: Spacing.md,
     paddingVertical: Spacing.xs,
+    backgroundColor: Colors.surface.fg,
+    paddingHorizontal: Spacing.lg,
   },
   name: {
     fontWeight: '700',
